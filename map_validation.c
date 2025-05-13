@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 00:28:08 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 00:37:34 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	count_length_and_width(t_map *map, char *map_name)
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (print_err("No such file or directory"), 0);
+		return (free(map), print_err("No such file or directory"), 0);
 	while ((line = without_next_line(get_next_line(fd))) != NULL)
 	{
 		(map->length)++;
