@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 00:37:34 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 01:10:12 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ static int	count_length_and_width(t_map *map, char *map_name)
 		if (count_width >= 3 && map->width != 0)
 		{
 			if (count_width != map->width)
-				return (close(fd), 0);
+				return (free(line), close(fd), 0);
 		}
 		else if (count_width >= 3 && map->width == 0)
 			map->width = count_width;
 		else
-			return (close(fd), 0);
+			return (free(line),close(fd), 0);
+		free(line);
 	}
 	if (map->length < 3 || map->width < 3)
 		return (close(fd), 0);
