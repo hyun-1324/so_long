@@ -6,13 +6,13 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/04/26 09:13:28 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/13 23:39:02 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "so_long.h"
 
-void	delete_copied_line(char **buffer, size_t *len)
+static void	delete_copied_line(char **buffer, size_t *len)
 {
 	int		rest_len;
 	char	*bzero_char;
@@ -29,7 +29,7 @@ void	delete_copied_line(char **buffer, size_t *len)
 	}
 }
 
-char	*copy_line(char **buffer, size_t	*i)
+static char	*copy_line(char **buffer, size_t *i)
 {
 	char	*line;
 
@@ -55,7 +55,7 @@ char	*copy_line(char **buffer, size_t	*i)
 	return (line);
 }
 
-char	*save_lines(int fd, char *buffer, char *tmp_buffer)
+static char	*save_lines(int fd, char *buffer, char *tmp_buffer)
 {
 	int	read_bytes;
 	int	buffer_len;
@@ -64,7 +64,7 @@ char	*save_lines(int fd, char *buffer, char *tmp_buffer)
 	read_bytes = 1;
 	while (read_bytes > 0)
 	{
-		read_bytes = read(fd, tmp_buffer, BUFFER_SIZE);
+		read_bytes = read(fd, tmp_buffer, 29);
 		if (read_bytes == -1)
 		{
 			free(buffer);
@@ -80,7 +80,7 @@ char	*save_lines(int fd, char *buffer, char *tmp_buffer)
 	return (buffer);
 }
 
-void	save_file(int fd, char **buffer)
+static void	save_file(int fd, char **buffer)
 {
 	char	*tmp_buffer;
 
@@ -88,7 +88,7 @@ void	save_file(int fd, char **buffer)
 		*buffer = ft_calloc(1, 1);
 	if (!*buffer)
 		return ;
-	tmp_buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	tmp_buffer = malloc((30) * sizeof(char));
 	if (!tmp_buffer)
 	{
 		free(*buffer);
@@ -110,7 +110,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		next_line_i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
 		return (NULL);
 	save_file(fd, &buffer);
 	if (!buffer)

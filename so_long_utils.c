@@ -1,71 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   so_long_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 12:19:32 by donheo            #+#    #+#             */
-/*   Updated: 2025/04/25 23:48:49 by donheo           ###   ########.fr       */
+/*   Created: 2025/05/13 20:15:56 by donheo            #+#    #+#             */
+/*   Updated: 2025/05/13 23:51:42 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "so_long.h"
 
-char	*ft_strchr(const char *s, int c)
+void	print_err(char *str)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-		{
-			return ((char *)s);
-		}
-		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
+	if (str)
+		write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	exit(1);
 }
 
-int	ft_strlen(const char *str)
+void	init_map(t_map *map)
+{
+	map->length = 0;
+	map->width = 0;
+	map->content = NULL;
+}
+
+void	free_map(t_map *map)
 {
 	int	i;
 
 	i = 0;
-	while (*str)
+	if (!map)
+		return ;
+	if (map->content)
 	{
-		i++;
-		str++;
-	}
-	return (i);
-}
-
-void	*ft_memmove(void *dest, const void *src, size_t n)
-{
-	size_t				i;
-	unsigned char		*d;
-	const unsigned char	*s;
-
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	if (d == s || n == 0)
-		return (dest);
-	if (s < d)
-	{
-		i = n;
-		while (i-- > 0)
-			d[i] = s[i];
-	}
-	else
-	{
-		i = 0;
-		while (i < n)
+		while (map->content[i])
 		{
-			d[i] = s[i];
+			free(map->content[i]);
 			i++;
 		}
+		free(map->content);
 	}
-	return (dest);
+	free(map);
+}
+
+void	free_content(char **content)
+{
+	int	i;
+
+	i = 0;
+	if (content)
+	{
+		while (content[i])
+		{
+			free(content[i]);
+			i++;
+		}
+		free(content);
+	}
 }
 
 char	*ft_strjoin_and_free(char *buffer, \
@@ -96,23 +90,4 @@ char	*ft_strjoin_and_free(char *buffer, \
 	new_s[i] = '\0';
 	free(buffer);
 	return (new_s);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	size_t	i;
-
-	i = 0;
-	if (size != 0 && nmemb > SIZE_MAX / size)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (!ptr)
-		return (NULL);
-	while (i < nmemb * size)
-	{
-		((unsigned char *)ptr)[i] = 0;
-		i++;
-	}
-	return (ptr);
 }
