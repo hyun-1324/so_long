@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:12:25 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/13 23:41:43 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 10:07:12 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	flood_fill(char **copy_content, t_map *map, int x, int y)
 {
-	if (x < 0 || y < 0 || x >= map->width || y >= map->length || copy_content[y][x] == '1')
+	if (x < 0 || y < 0 || x >= map->width || y >= map->length \
+		|| copy_content[y][x] == '1')
 		return ;
 	copy_content[y][x] = '1';
 	flood_fill(copy_content, map, x + 1, y);
@@ -50,13 +51,15 @@ int	check_path(t_map *map)
 
 	copy_content = ft_calloc(map->length + 1, sizeof(char *));
 	if (!copy_content)
-		return (free_map(map), print_err("fail to allocate memory for copy content"), 0);
+		return (free_map(map), \
+		print_err("fail to allocate memory for copy content"), 0);
 	i = 0;
 	while (i < map->length)
 	{
 		copy_content[i] = ft_strdup(map->content[i]);
 		if (!copy_content[i])
-			return (free_content(copy_content), free_map(map), print_err("fail to allocate memory for copy content"), 0);
+			return (free_content(copy_content), free_map(map), \
+			print_err("fail to allocate memory for copy content"), 0);
 		i++;
 	}
 	flood_fill(copy_content, map, map->player_x, map->player_y);

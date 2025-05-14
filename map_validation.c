@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 01:10:12 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 10:26:23 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,47 @@ static char	*without_next_line(char *str)
 	int	len;
 
 	if (!str)
-		return NULL;
+		return (NULL);
 	len = ft_strlen(str);
 	if (str[len - 1] == '\n')
 		str[len - 1] = '\0';
 	return (str);
 }
 
+static int	process_map_line(t_map *map, char *line)
+{
+	int	count_width;
+
+	map->length++;
+	count_width = ft_strlen(line);
+	if (count_width >= 3 && map->width != 0)
+	{
+		if (count_width != map->width)
+			return (0);
+	}
+	else if (count_width >= 3 && map->width == 0)
+		map->width = count_width;
+	else
+		return (0);
+	return (1);
+}
+
 static int	count_length_and_width(t_map *map, char *map_name)
 {
 	int		fd;
-	int		count_width;
 	char	*line;
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (free(map), print_err("No such file or directory"), 0);
-	while ((line = without_next_line(get_next_line(fd))) != NULL)
+		return (free(map), print_err("failed to open file"), 0);
+	line = without_next_line(get_next_line(fd));
+	while (line)
 	{
-		(map->length)++;
-		count_width = ft_strlen(line);
-		if (count_width >= 3 && map->width != 0)
-		{
-			if (count_width != map->width)
-				return (free(line), close(fd), 0);
-		}
-		else if (count_width >= 3 && map->width == 0)
-			map->width = count_width;
-		else
-			return (free(line),close(fd), 0);
+		if (!process_map_line(map, line))
+			return (free(line), close(fd), 0);
 		free(line);
+		line = without_next_line(get_next_line(fd));
 	}
-	if (map->length < 3 || map->width < 3)
-		return (close(fd), 0);
 	return (close(fd), 1);
 }
 
@@ -71,16 +79,17 @@ static int	save_map(t_map *map, char *map_name)
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (free(map), print_err("fail to open the file to save map content"), 0);
+		return (free(map), \
+		print_err("fail to open the file to save map content"), 0);
 	i = 0;
 	while (i < map->length)
 	{
 		line = without_next_line(get_next_line(fd));
 		if (!line)
-			return(close(fd), 0);
+			return (close(fd), 0);
 		map->content[i] = ft_strdup(line);
 		if (!map->content[i])
-			return(free(line), close(fd), 0);
+			return (free(line), close(fd), 0);
 		free(line);
 		i++;
 	}
@@ -101,12 +110,15 @@ t_map	*check_map_validation(char *map_name)
 	init_map(map);
 	if (!count_length_and_width(map, map_name))
 		return (free(map), print_err("Invalid map"), NULL);
+	if (map->length < 3 || map->width < 3)
+		return (print_err("Invalid map"), NULL);
 	map->content = calloc(map->length + 1, sizeof(char *));
 	if (!map->content)
-		return(free(map), print_err("memory allocation fails to create map content"), NULL);
+		return (free(map), \
+		print_err("memory allocation fails to create map content"), NULL);
 	if (!save_map(map, map_name))
 		return (free_map(map), print_err("fail to save map content"), NULL);
-	if (!check_chars(map, 0, 0, 0) || !check_path(map))
+	if (!check_chars(map, 0, 0) || !check_path(map))
 		return (free_map(map), print_err("Invalid map"), NULL);
 	int j = 0;
 	while (map->content[j])

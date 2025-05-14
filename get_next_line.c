@@ -6,118 +6,104 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 00:59:44 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 10:03:36 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	delete_copied_line(char **buffer, size_t *len)
+static char	*ft_strjoin_and_free(char *s1, char *s2, int *s1_l, int *s2_l)
 {
-	int		rest_len;
-	char	*bzero_char;
-	size_t	bzero_i;
+	int		i;
+	char	*new_s;
 
-	rest_len = ft_strlen(*buffer + *len);
-	ft_memmove(*buffer, *buffer + *len, rest_len + 1);
-	bzero_char = *buffer + rest_len + 1;
-	bzero_i = 0;
-	while (bzero_i < *len)
+	*s1_l = ft_strlen(s1);
+	*s2_l = ft_strlen(s2);
+	new_s = (char *)malloc((*s1_l + *s2_l + 1) * sizeof(char));
+	if (!new_s)
 	{
-		bzero_char[bzero_i] = '\0';
-		bzero_i++;
+		free(s1);
+		return (NULL);
 	}
+	i = 0;
+	while (i < *s1_l)
+	{
+		new_s[i] = s1[i];
+		i++;
+	}
+	while (i < *s1_l + *s2_l)
+	{
+		new_s[i] = s2[i - *s1_l];
+		i++;
+	}
+	new_s[i] = '\0';
+	free(s1);
+	return (new_s);
 }
 
-static char	*copy_line(char **buffer, size_t *i)
+static char	*copy_line(char *buffer, size_t *i)
 {
 	char	*line;
 
 	*i = 0;
-	while ((*buffer)[*i] && (*buffer)[*i] != '\n')
+	while (buffer[*i] && buffer[*i] != '\n')
 		(*i)++;
-	if ((*buffer)[*i] == '\n')
+	if (buffer[*i] == '\n')
 		(*i)++;
 	line = ft_calloc(*i + 1, sizeof(char));
 	if (!line)
-	{
-		free(*buffer);
 		return (NULL);
-	}
-	*i = 0;
-	while ((*buffer)[*i] && (*buffer)[*i] != '\n')
-	{
-		line[*i] = (*buffer)[*i];
-		(*i)++;
-	}
-	if ((*buffer)[*i] && (*buffer)[*i] == '\n')
-		line[(*i)++] = '\n';
+	ft_memcpy(line, buffer, *i);
 	return (line);
 }
 
-static char	*save_lines(int fd, char *buffer, char *tmp_buffer)
+static char	*save_line(int fd, char *tmp_buffer)
 {
-	int	read_bytes;
-	int	buffer_len;
-	int	tmp_len;
+	int		read_bytes;
+	char	read_buffer[30];
+	int		read_len;
+	int		tmp_len;
 
 	read_bytes = 1;
 	while (read_bytes > 0)
 	{
-		read_bytes = read(fd, tmp_buffer, 29);
+		read_bytes = read(fd, read_buffer, 29);
 		if (read_bytes == -1)
 		{
-			free(buffer);
+			free(tmp_buffer);
+			tmp_buffer = NULL;
 			return (NULL);
 		}
-		tmp_buffer[read_bytes] = 0;
-		buffer = ft_strjoin_and_free(buffer, tmp_buffer, &buffer_len, &tmp_len);
-		if (!buffer)
+		read_buffer[read_bytes] = '\0';
+		tmp_buffer = ft_strjoin_and_free(tmp_buffer, read_buffer, \
+			&tmp_len, &read_len);
+		if (!tmp_buffer)
 			return (NULL);
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr(tmp_buffer, '\n'))
 			break ;
 	}
-	return (buffer);
-}
-
-static void	save_file(int fd, char **buffer)
-{
-	char	*tmp_buffer;
-
-	if (!*buffer)
-		*buffer = ft_calloc(1, 1);
-	if (!*buffer)
-		return ;
-	tmp_buffer = malloc((30) * sizeof(char));
-	if (!tmp_buffer)
-	{
-		free(*buffer);
-		*buffer = NULL;
-		return ;
-	}
-	*buffer = save_lines(fd, *buffer, tmp_buffer);
-	free(tmp_buffer);
-	if (*buffer && (*buffer)[0] == '\0')
-	{
-		free(*buffer);
-		*buffer = NULL;
-	}
+	return (tmp_buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	buffer[32];
+	char		*tmp_buffer;
 	char		*line;
 	size_t		next_line_i;
 
 	if (fd < 0)
 		return (NULL);
-	save_file(fd, &buffer);
-	if (!buffer)
+	tmp_buffer = ft_strdup(buffer);
+	if (!tmp_buffer)
 		return (NULL);
-	line = copy_line(&buffer, &next_line_i);
+	tmp_buffer = save_line(fd, tmp_buffer);
+	if (!tmp_buffer || tmp_buffer[0] == '\0')
+		return (free(tmp_buffer), NULL);
+	line = copy_line(tmp_buffer, &next_line_i);
 	if (!line)
-		return (NULL);
-	delete_copied_line(&buffer, &next_line_i);
+		return (free(tmp_buffer), NULL);
+	ft_strlcpy(buffer, tmp_buffer + next_line_i, sizeof(buffer));
+	free(tmp_buffer);
 	return (line);
 }
