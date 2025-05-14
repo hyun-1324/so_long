@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 10:03:36 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 11:35:00 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static char	*save_line(int fd, char *tmp_buffer)
 		if (read_bytes == -1)
 		{
 			free(tmp_buffer);
-			tmp_buffer = NULL;
 			return (NULL);
 		}
 		read_buffer[read_bytes] = '\0';
