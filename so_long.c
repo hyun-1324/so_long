@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		print_err("Invalid input");
 	map = check_map_validation(av[1]);
 
+	init_game();
 	free_map(map);
 	return (0);
 }
