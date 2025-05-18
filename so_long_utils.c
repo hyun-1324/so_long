@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:15:56 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 10:06:31 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/14 11:29:34 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,16 @@ void	free_content(char **content)
 		}
 		free(content);
 	}
+}
+
+char	*without_next_line(char *str)
+{
+	int	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
+	return (str);
 }
