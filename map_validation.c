@@ -6,23 +6,11 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/18 13:46:16 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:50:02 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-static char	*without_next_line(char *str)
-{
-	int	len;
-
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	if (str[len - 1] == '\n')
-		str[len - 1] = '\0';
-	return (str);
-}
 
 static int	process_map_line(t_map *map, char *line)
 {
