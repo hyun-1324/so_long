@@ -6,15 +6,23 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/18 13:42:52 by donheo           ###   ########.fr       */
-=======
-/*   Updated: 2025/05/14 14:32:19 by donheo           ###   ########.fr       */
->>>>>>> 6424fa26274a07d7dc3304f71c4dcbdb7590bd12
+/*   Updated: 2025/05/18 13:46:16 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static char	*without_next_line(char *str)
+{
+	int	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (str[len - 1] == '\n')
+		str[len - 1] = '\0';
+	return (str);
+}
 
 static int	process_map_line(t_map *map, char *line)
 {
@@ -41,7 +49,7 @@ static int	count_length_and_width(t_map *map, char *map_name)
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (free(map), print_err("fail to open file"), 0);
+		return (free(map), print_err("failed to open file"), 0);
 	line = without_next_line(get_next_line(fd));
 	while (line)
 	{
@@ -95,7 +103,7 @@ t_map	*check_map_validation(char *map_name)
 	t_map	*map;
 
 	if (!check_extension(map_name))
-		print_err("Invalid file");
+		print_err("Invalid file name");
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		print_err("memory allocation fails to make struct for map");
