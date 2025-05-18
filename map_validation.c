@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 10:26:23 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/18 13:42:52 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,5 @@ t_map	*check_map_validation(char *map_name)
 		return (free_map(map), print_err("fail to save map content"), NULL);
 	if (!check_chars(map, 0, 0) || !check_path(map))
 		return (free_map(map), print_err("Invalid map"), NULL);
-	int j = 0;
-	while (map->content[j])
-		printf("map is %s\n", map->content[j++]);
 	return (map);
 }
