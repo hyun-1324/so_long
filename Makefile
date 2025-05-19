@@ -1,7 +1,8 @@
 NAME = so_long
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./includes/ -I./MLX42/include -Wunreachable-code -Ofast -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -g -I./includes/ -I./MLX42/include -Wunreachable-code -Ofast -MMD -MP
+LDFLAGS = -ldl -lglfw -pthread -lm
 RM = rm -f
 
 SRCS_PATH = ./src
@@ -17,6 +18,9 @@ SRCS = $(SRCS_PATH)/so_long.c \
 	   $(SRCS_PATH)/check_paths.c \
 	   $(SRCS_PATH)/get_next_line.c \
 	   $(SRCS_PATH)/map_utils.c \
+	   $(SRCS_PATH)/game.c \
+	   $(SRCS_PATH)/game_utils.c \
+
 
 
 OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJS_PATH)/%.o)

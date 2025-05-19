@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 21:41:58 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 10:05:57 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:27:38 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ static void	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 	while (map->content[line_num][i])
 	{
 		if (map->content[line_num][i] == 'E')
+		{
+			map->exit_x = i;
+			map->exit_y = line_num;
 			(*e_check)++;
+		}
 		else if (map->content[line_num][i] == 'P')
 		{
 			map->player_x = i;
@@ -42,7 +46,7 @@ static void	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 			(*p_check)++;
 		}
 		else if (map->content[line_num][i] == 'C')
-			(map->collectable)++;
+			(map->collectibles)++;
 		i++;
 	}
 }
@@ -63,7 +67,7 @@ int	check_chars(t_map *map, int exit_check, int player_check)
 		check_line(map, i, &exit_check, &player_check);
 		i++;
 	}
-	if (exit_check != 1 || player_check != 1 || map->collectable < 1)
+	if (exit_check != 1 || player_check != 1 || map->collectibles < 1)
 		return (0);
 	if (!check_border(map->content[i]))
 		return (0);

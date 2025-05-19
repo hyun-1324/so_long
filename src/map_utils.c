@@ -6,19 +6,17 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:15:56 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 10:45:52 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:26:56 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-
-
 void	init_map(t_map *map)
 {
 	map->length = 0;
 	map->width = 0;
-	map->collectable = 0;
+	map->collectibles = 0;
 	map->player_x = 0;
 	map->player_y = 0;
 	map->content = NULL;
