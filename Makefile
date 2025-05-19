@@ -1,28 +1,48 @@
 NAME = so_long
 
-SRCS =
-
-OBJS = $(SRCS:%.c=%.o)
-
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I./includes/ -I./MLX42/include -Wunreachable-code -Ofast -MMD -MP
 RM = rm -f
+
+SRCS_PATH = ./src
+OBJS_PATH = ./obj
+LIBFT_PATH = ./libft
+MLX_PATH = ./MLX42
+
+MLXLIB = $(MLX_PATH)/build/libmlx42.a
+LIBFT = $(LIBFT_PATH)/libft.a
+SRCS = $(SRCS_PATH)/so_long.c \
+		$(SRCS_PATH)/map_validation.c \
+
+OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJS_PATH)/%.o)
+DEP = $(OBJS:.o=.d)
 
 .SECONDARY: $(OBJS)
 
 all : $(NAME)
 
-$(NAME) : $(MLX_DIR)/libmlx.a libft/libft.a
-	$(NAME): $(OBJS) mlx/libmlx.a libft/libft.a -o $@
+$(NAME) : $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLXLIB) $(LDFLAGS) -o $(NAME)
 
-%.o : %.c so_long.h
+$(OBJS_PATH):
+	mkdir -p $(OBJS_PATH)
+
+$(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c | $(OBJS_PATH)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+-include $(DEP)
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_PATH)
+
 clean :
-	$(RM) $(OBJS)
+	@rm -rf $(OBJS_PATH)
+	@rm -f $(DEP)
+	@$(MAKE) -C $(LIBFT_PATH) clean
 
 fclean : clean
-	$(RM) $(NAME)
+	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_PATH) fclean
 
 re : fclean all
 
