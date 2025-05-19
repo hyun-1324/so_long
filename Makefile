@@ -12,7 +12,12 @@ MLX_PATH = ./MLX42
 MLXLIB = $(MLX_PATH)/build/libmlx42.a
 LIBFT = $(LIBFT_PATH)/libft.a
 SRCS = $(SRCS_PATH)/so_long.c \
-		$(SRCS_PATH)/map_validation.c \
+	   $(SRCS_PATH)/map_validation.c \
+	   $(SRCS_PATH)/check_chars.c \
+	   $(SRCS_PATH)/check_paths.c \
+	   $(SRCS_PATH)/get_next_line.c \
+	   $(SRCS_PATH)/so_long_utils.c \
+
 
 OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJS_PATH)/%.o)
 DEP = $(OBJS:.o=.d)
@@ -22,7 +27,7 @@ DEP = $(OBJS:.o=.d)
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLXLIB) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLXLIB) $(LDFLAGS) -o $(NAME)
 
 $(OBJS_PATH):
 	mkdir -p $(OBJS_PATH)

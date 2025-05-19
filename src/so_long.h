@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:37:43 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/18 13:48:59 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/19 09:27:32 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 typedef struct s_map
 {
