@@ -16,7 +16,7 @@ SRCS = $(SRCS_PATH)/so_long.c \
 	   $(SRCS_PATH)/check_chars.c \
 	   $(SRCS_PATH)/check_paths.c \
 	   $(SRCS_PATH)/get_next_line.c \
-	   $(SRCS_PATH)/so_long_utils.c \
+	   $(SRCS_PATH)/map_utils.c \
 
 
 OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJS_PATH)/%.o)
