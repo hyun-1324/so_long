@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 22:11:10 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 23:27:07 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 	int		fd;
 	char	*line;
 
-	(*last_line) = 0;
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), print_err("failed to open file"), 0);
-	line = without_next_line(get_next_line(fd, last_line, map));
+	line = without_next_line(get_next_line(fd, map), last_line);
 	if (!line)
-		return (free(map), print_err("failed to get line"), 0);
+		return (close(fd), free(map), print_err("failed to get line"), 0);
 	while (line)
 	{
 		if (!process_map_line(map, line))
 			return (free(line), close(fd), 0);
 		free(line);
-		line = without_next_line(get_next_line(fd, last_line, map));
+		if (*last_line)
+			break ;
+		line = without_next_line(get_next_line(fd, map), last_line);
 	}
 	return (close(fd), 1);
 }
@@ -78,7 +79,6 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 	int		i;
 	char	*line;
 
-	(*last_line) = 0;
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), \
@@ -86,7 +86,7 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 	i = 0;
 	while (i < map->length)
 	{
-		line = without_next_line(get_next_line(fd, last_line, map));
+		line = without_next_line(get_next_line(fd, map), last_line);
 		if (!line)
 			return (close(fd), 0);
 		map->content[i] = ft_strdup(line);
@@ -94,6 +94,8 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 			return (free(line), close(fd), 0);
 		free(line);
 		i++;
+		if (*last_line)
+			break ;
 	}
 	map->content[i] = NULL;
 	close(fd);
@@ -111,6 +113,7 @@ t_map	*check_map_validation(char *map_name)
 	if (!map)
 		print_err("memory allocation fails to make struct for map");
 	init_map(map);
+	last_line = 0;
 	if (!count_length_and_width(map, map_name, &last_line))
 		return (free(map), print_err("Invalid map"), NULL);
 	if (map->length < 3 || map->width < 3 || map->length * \
@@ -120,6 +123,7 @@ t_map	*check_map_validation(char *map_name)
 	if (!map->content)
 		return (free(map), \
 		print_err("memory allocation fails to create map content"), NULL);
+	last_line = 0;
 	if (!save_map(map, map_name, &last_line))
 		return (free_map(map), print_err("fail to save map content"), NULL);
 	if (!check_chars(map, 0, 0) || !check_path(map))

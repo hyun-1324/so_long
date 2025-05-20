@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 21:50:23 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 23:27:37 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ static char	*save_line(int fd, char *tmp_buffer)
 	return (tmp_buffer);
 }
 
-char	*get_next_line(int fd, int *last_line, t_map *map)
+char	*get_next_line(int fd, t_map *map)
 {
 	static char	buffer[30];
 	char		*tmp_buffer;
 	char		*line;
 	size_t		next_line_i;
 
-	if (fd < 0 || *last_line)
+	if (fd < 0)
 		return (NULL);
 	tmp_buffer = ft_strdup(buffer);
 	if (!tmp_buffer)
@@ -98,9 +98,8 @@ char	*get_next_line(int fd, int *last_line, t_map *map)
 		return (free(map), print_err("fail to allocate memory"), NULL);
 	line = copy_line(tmp_buffer, &next_line_i);
 	if (!line)
-		return (free(tmp_buffer), print_err("fail to allocate memory"), NULL);
-	else if (!ft_strchr(line, '\n'))
-		(*last_line)++;
+		return (free(map), free(tmp_buffer), \
+		print_err("fail to allocate memory"), NULL);
 	ft_bzero(buffer, 30);
 	ft_strlcpy(buffer, tmp_buffer + next_line_i, sizeof(buffer));
 	free(tmp_buffer);
