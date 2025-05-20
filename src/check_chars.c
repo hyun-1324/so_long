@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 21:41:58 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 20:48:57 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:55:49 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 		}
 		else if (map->content[line_num][i] == 'C')
 			(map->collectibles)++;
-		else if (map->content[line_num][i] != '1' && map->content[line_num][i] != '0')
+		else if (map->content[line_num][i] != '1' && \
+			map->content[line_num][i] != '0')
 			return (0);
 		i++;
 	}

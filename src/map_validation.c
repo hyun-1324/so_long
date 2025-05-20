@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 21:21:33 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:04:35 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,15 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 static int	check_extension(char *map_name)
 {
 	int	len;
+	int	fd;
 
+	fd = open(map_name, O_RDONLY | O_DIRECTORY);
+	if (fd != -1)
+		return (0);
 	len = ft_strlen(map_name);
 	if (len > 4 && ft_strncmp(&map_name[len - 4], ".ber", 4) == 0)
-		return (1);
-	return (0);
+		return (close(fd), 1);
+	return (close(fd), 0);
 }
 
 static int	save_map(t_map *map, char *map_name, int *last_line)
@@ -96,14 +100,15 @@ t_map	*check_map_validation(char *map_name)
 	int		last_line;
 
 	if (!check_extension(map_name))
-		print_err("Invalid file name");
+		print_err("Invalid file");
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		print_err("memory allocation fails to make struct for map");
 	init_map(map);
 	if (!count_length_and_width(map, map_name, &last_line))
 		return (free(map), print_err("Invalid map"), NULL);
-	if (map->length < 3 || map->width < 3 || map->length * TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
+	if (map->length < 3 || map->width < 3 || map->length * \
+		TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
 		return (print_err("Invalid map"), NULL);
 	map->content = calloc(map->length + 1, sizeof(char *));
 	if (!map->content)

@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 21:01:23 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:50:23 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*save_line(int fd, char *tmp_buffer)
 	{
 		read_bytes = read(fd, read_buffer, 29);
 		if (read_bytes == -1)
-			return(free(tmp_buffer), NULL);
+			return (free(tmp_buffer), NULL);
 		read_buffer[read_bytes] = '\0';
 		tmp_buffer = ft_strjoin_and_free(tmp_buffer, read_buffer, \
 			&tmp_len, &read_len);
@@ -92,13 +92,13 @@ char	*get_next_line(int fd, int *last_line, t_map *map)
 		return (NULL);
 	tmp_buffer = ft_strdup(buffer);
 	if (!tmp_buffer)
-		return (free(map), print_err("fail to allocate memory for tmp_buffer"), NULL);
+		return (free(map), print_err("fail to allocate memory"), NULL);
 	tmp_buffer = save_line(fd, tmp_buffer);
 	if (!tmp_buffer)
-		return (free(map), print_err("fail to allocate memory for tmp_buffer"), NULL);
+		return (free(map), print_err("fail to allocate memory"), NULL);
 	line = copy_line(tmp_buffer, &next_line_i);
 	if (!line)
-		return (free(tmp_buffer), print_err("fail to allocate memory for next line"), NULL);
+		return (free(tmp_buffer), print_err("fail to allocate memory"), NULL);
 	else if (!ft_strchr(line, '\n'))
 		(*last_line)++;
 	ft_bzero(buffer, 30);
