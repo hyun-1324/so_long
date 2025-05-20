@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:22:30 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 15:40:47 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:08:41 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,7 @@ void	init_game(t_game *game)
 	game->collectibles = game->map->collectibles;
 	render_background(game);
 	render_objects(game);
+	if (mlx_image_to_window(game->mlx, game->img_player, game->map->player_x \
+		* TILE_SIZE, game->map->player_y * TILE_SIZE) < 0)
+		terminate_with_error(game);
 }

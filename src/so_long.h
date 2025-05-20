@@ -6,17 +6,14 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:37:43 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 15:40:20 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:06:49 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
-# include <unistd.h>
 # include "../libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
@@ -33,8 +30,6 @@ typedef struct s_map
 	int		width;
 	int		player_x;
 	int		player_y;
-	int		exit_x;
-	int		exit_y;
 	int		collectibles;
 	char	**content;
 }	t_map;

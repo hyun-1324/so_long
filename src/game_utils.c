@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:58:46 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 15:41:52 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:07:32 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,6 @@ void	render_objects(t_game *game)
 					terminate_with_error(game);
 			if (game->map->content[y][x] == 'E')
 				if (mlx_image_to_window(game->mlx, game->img_exit, \
-					x * TILE_SIZE, y * TILE_SIZE) < 0)
-					terminate_with_error(game);
-			if (game->map->content[y][x] == 'P')
-				if (mlx_image_to_window(game->mlx, game->img_player, \
 					x * TILE_SIZE, y * TILE_SIZE) < 0)
 					terminate_with_error(game);
 			x++;

@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 21:41:58 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 15:27:38 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:07:14 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ static void	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 	while (map->content[line_num][i])
 	{
 		if (map->content[line_num][i] == 'E')
-		{
-			map->exit_x = i;
-			map->exit_y = line_num;
 			(*e_check)++;
-		}
 		else if (map->content[line_num][i] == 'P')
 		{
 			map->player_x = i;
