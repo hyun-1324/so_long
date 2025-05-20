@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 20:35:01 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:04:11 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), print_err("failed to open file"), 0);
-	line = without_next_line(get_next_line(fd, last_line));
+	line = without_next_line(get_next_line(fd, last_line, map));
 	if (!line)
 		return (free(map), print_err("failed to get line"), 0);
 	while (line)
@@ -47,7 +47,7 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 		if (!process_map_line(map, line))
 			return (free(line), close(fd), 0);
 		free(line);
-		line = without_next_line(get_next_line(fd, last_line));
+		line = without_next_line(get_next_line(fd, last_line, map));
 	}
 	return (close(fd), 1);
 }
@@ -76,7 +76,7 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 	i = 0;
 	while (i < map->length)
 	{
-		line = without_next_line(get_next_line(fd, last_line));
+		line = without_next_line(get_next_line(fd, last_line, map));
 		if (!line)
 			return (close(fd), 0);
 		map->content[i] = ft_strdup(line);

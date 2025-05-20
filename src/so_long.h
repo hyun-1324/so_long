@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:37:43 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 20:34:22 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:02:58 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_content(char **content);
 char	*without_next_line(char *str);
 
 t_map	*check_map_validation(char *map_name);
-char	*get_next_line(int fd, int *last_line);
+char	*get_next_line(int fd, int *last_line, t_map *map);
 int		check_chars(t_map *map, int exit_check, int player_check);
 int		check_path(t_map *map);
 
