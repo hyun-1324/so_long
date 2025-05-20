@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 22:04:35 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:11:10 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ static int	check_extension(char *map_name)
 
 	fd = open(map_name, O_RDONLY | O_DIRECTORY);
 	if (fd != -1)
+	{
+		close(fd);
+		return (0);
+	}
+	fd = open(map_name, O_RDONLY);
+	if (fd == -1)
 		return (0);
 	len = ft_strlen(map_name);
 	if (len > 4 && ft_strncmp(&map_name[len - 4], ".ber", 4) == 0)
