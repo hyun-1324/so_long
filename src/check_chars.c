@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 21:41:58 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 15:07:14 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 20:48:57 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	check_border(char *str)
 	return (1);
 }
 
-static void	check_line(t_map *map, int line_num, int *e_check, int *p_check)
+static int	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 {
 	int	i;
 
@@ -43,8 +43,11 @@ static void	check_line(t_map *map, int line_num, int *e_check, int *p_check)
 		}
 		else if (map->content[line_num][i] == 'C')
 			(map->collectibles)++;
+		else if (map->content[line_num][i] != '1' && map->content[line_num][i] != '0')
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
 int	check_chars(t_map *map, int exit_check, int player_check)
@@ -60,7 +63,8 @@ int	check_chars(t_map *map, int exit_check, int player_check)
 		if ((map->content[i])[0] != '1' || (map->content[i])[map->width - 1] \
 		!= '1')
 			return (0);
-		check_line(map, i, &exit_check, &player_check);
+		if (!check_line(map, i, &exit_check, &player_check))
+			return (0);
 		i++;
 	}
 	if (exit_check != 1 || player_check != 1 || map->collectibles < 1)

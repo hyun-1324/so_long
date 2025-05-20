@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 17:06:39 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 20:30:42 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ static char	*save_line(int fd, char *tmp_buffer)
 	{
 		read_bytes = read(fd, read_buffer, 29);
 		if (read_bytes == -1)
-		{
-			free(tmp_buffer);
-			return (NULL);
-		}
+			return(free(tmp_buffer), NULL);
 		read_buffer[read_bytes] = '\0';
 		tmp_buffer = ft_strjoin_and_free(tmp_buffer, read_buffer, \
 			&tmp_len, &read_len);
@@ -84,24 +81,27 @@ static char	*save_line(int fd, char *tmp_buffer)
 	return (tmp_buffer);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int *last_line)
 {
-	static char	buffer[32];
+	static char	buffer[30];
 	char		*tmp_buffer;
 	char		*line;
 	size_t		next_line_i;
 
-	if (fd < 0)
+	if (fd < 0 || *last_line)
 		return (NULL);
 	tmp_buffer = ft_strdup(buffer);
 	if (!tmp_buffer)
 		return (NULL);
 	tmp_buffer = save_line(fd, tmp_buffer);
-	if (!tmp_buffer || tmp_buffer[0] == '\0')
+	if (!tmp_buffer)
 		return (free(tmp_buffer), NULL);
 	line = copy_line(tmp_buffer, &next_line_i);
 	if (!line)
 		return (free(tmp_buffer), NULL);
+	else if (!ft_strchr(line, '\n'))
+		(*last_line)++;
+	ft_bzero(buffer, 30);
 	ft_strlcpy(buffer, tmp_buffer + next_line_i, sizeof(buffer));
 	free(tmp_buffer);
 	return (line);

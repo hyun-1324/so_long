@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/18 13:50:02 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 20:35:01 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,24 @@ static int	process_map_line(t_map *map, char *line)
 	return (1);
 }
 
-static int	count_length_and_width(t_map *map, char *map_name)
+static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 {
 	int		fd;
 	char	*line;
 
+	(*last_line) = 0;
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), print_err("failed to open file"), 0);
-	line = without_next_line(get_next_line(fd));
+	line = without_next_line(get_next_line(fd, last_line));
+	if (!line)
+		return (free(map), print_err("failed to get line"), 0);
 	while (line)
 	{
 		if (!process_map_line(map, line))
 			return (free(line), close(fd), 0);
 		free(line);
-		line = without_next_line(get_next_line(fd));
+		line = without_next_line(get_next_line(fd, last_line));
 	}
 	return (close(fd), 1);
 }
@@ -59,12 +62,13 @@ static int	check_extension(char *map_name)
 	return (0);
 }
 
-static int	save_map(t_map *map, char *map_name)
+static int	save_map(t_map *map, char *map_name, int *last_line)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
+	(*last_line) = 0;
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), \
@@ -72,7 +76,7 @@ static int	save_map(t_map *map, char *map_name)
 	i = 0;
 	while (i < map->length)
 	{
-		line = without_next_line(get_next_line(fd));
+		line = without_next_line(get_next_line(fd, last_line));
 		if (!line)
 			return (close(fd), 0);
 		map->content[i] = ft_strdup(line);
@@ -89,6 +93,7 @@ static int	save_map(t_map *map, char *map_name)
 t_map	*check_map_validation(char *map_name)
 {
 	t_map	*map;
+	int		last_line;
 
 	if (!check_extension(map_name))
 		print_err("Invalid file name");
@@ -96,7 +101,7 @@ t_map	*check_map_validation(char *map_name)
 	if (!map)
 		print_err("memory allocation fails to make struct for map");
 	init_map(map);
-	if (!count_length_and_width(map, map_name))
+	if (!count_length_and_width(map, map_name, &last_line))
 		return (free(map), print_err("Invalid map"), NULL);
 	if (map->length < 3 || map->width < 3)
 		return (print_err("Invalid map"), NULL);
@@ -104,7 +109,7 @@ t_map	*check_map_validation(char *map_name)
 	if (!map->content)
 		return (free(map), \
 		print_err("memory allocation fails to create map content"), NULL);
-	if (!save_map(map, map_name))
+	if (!save_map(map, map_name, &last_line))
 		return (free_map(map), print_err("fail to save map content"), NULL);
 	if (!check_chars(map, 0, 0) || !check_path(map))
 		return (free_map(map), print_err("Invalid map"), NULL);
