@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/14 11:35:00 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:06:39 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*save_line(int fd, char *tmp_buffer)
 	int		tmp_len;
 
 	read_bytes = 1;
-	while (read_bytes > 0)
+	while (read_bytes > 0 && !ft_strchr(tmp_buffer, '\n'))
 	{
 		read_bytes = read(fd, read_buffer, 29);
 		if (read_bytes == -1)
