@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:37:43 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 21:02:58 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:43:42 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 
 # define TILE_SIZE 64
+# define MONITOR_WIDTH 3840
+# define MONITOR_LENGTH 2048
 # define WALL "./textures/wall.png"
 # define FLOOR "./textures/floor.png"
 # define COLLECTIBLE "./textures/collectible.png"

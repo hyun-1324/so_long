@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 21:04:11 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:21:33 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_map	*check_map_validation(char *map_name)
 	init_map(map);
 	if (!count_length_and_width(map, map_name, &last_line))
 		return (free(map), print_err("Invalid map"), NULL);
-	if (map->length < 3 || map->width < 3)
+	if (map->length < 3 || map->width < 3 || map->length * TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
 		return (print_err("Invalid map"), NULL);
 	map->content = calloc(map->length + 1, sizeof(char *));
 	if (!map->content)
