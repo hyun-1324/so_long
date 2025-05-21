@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 11:38:01 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 12:01:25 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 	{
 		if (!process_map_line(map, line))
 			return (free(line), close(fd), free(map), \
-			print_err("Invalid map: inconsistent width"), 0);
+			print_err("Invalid map width"), 0);
 		free(line);
 		if (*last_line)
 			break ;
@@ -118,8 +118,8 @@ t_map	*check_map_validation(char *map_name)
 	count_length_and_width(map, map_name, &last_line);
 	if (map->length < 3 || map->width < 3 || map->length * \
 		TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
-		return (free(map), print_err("invalid map: size too \
-			small or exceeds monitor"), NULL);
+		return (free(map), \
+		print_err("invalid map: size too small or exceeds monitor"), NULL);
 	map->content = calloc(map->length + 1, sizeof(char *));
 	if (!map->content)
 		return (free(map), \
