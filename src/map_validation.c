@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 12:55:24 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 14:44:46 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_map	*check_map_validation(char *map_name)
 		TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
 		return (free(map), \
 		print_err("invalid map: size too small or exceeds monitor"), NULL);
-	map->content = calloc(map->length + 1, sizeof(char *));
+	map->content = ft_calloc(map->length + 1, sizeof(char *));
 	if (!map->content)
 		return (free(map), \
 		print_err("failed to allocate memory for map content"), NULL);
