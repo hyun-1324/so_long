@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 07:44:14 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 12:53:28 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ char	*get_next_line(int fd, t_map *map)
 		return (NULL);
 	tmp_buffer = ft_strdup(buffer);
 	if (!tmp_buffer)
-		return (close(fd), free(map), \
+		return (close(fd), free_map(map), \
 		print_err("fail to allocate memory to make line"), NULL);
 	tmp_buffer = save_line(fd, tmp_buffer);
 	if (!tmp_buffer)
-		return (close(fd), free(map), \
+		return (close(fd), free_map(map), \
 		print_err("fail to allocate memory to make line"), NULL);
 	line = copy_line(tmp_buffer, &next_line_i);
 	if (!line)
-		return (close(fd), free(map), free(tmp_buffer), \
+		return (close(fd), free_map(map), free(tmp_buffer), \
 		print_err("fail to allocate memory to make line"), NULL);
 	ft_bzero(buffer, 30);
 	ft_strlcpy(buffer, tmp_buffer + next_line_i, sizeof(buffer));

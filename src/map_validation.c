@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 12:01:25 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 12:55:24 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (free(map), \
+		return (free_map(map), \
 		print_err("failed to reopen the file for map content"), 0);
 	i = 0;
 	while (i < map->length)
@@ -99,8 +99,7 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 			break ;
 	}
 	map->content[i] = NULL;
-	close(fd);
-	return (1);
+	return (close(fd), 1);
 }
 
 t_map	*check_map_validation(char *map_name)
