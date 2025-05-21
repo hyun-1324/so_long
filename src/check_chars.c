@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 21:41:58 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 11:38:00 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 11:55:34 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	check_chars(t_map *map, int exit_check, int player_check)
 			print_err("invalid characters in map line"), 0);
 		i++;
 	}
+	if (!check_border(map->content[i]))
+		return (free_map(map), print_err("invalid map border"), 0);
 	if (exit_check != 1 || player_check != 1 || map->collectibles < 1)
 		return (free_map(map), print_err("invalid number of map object"), 0);
-	if (!check_border(map->content[i]))
-		return (free_map(map), print_err("invalid border"), 0);
 	return (1);
 }
