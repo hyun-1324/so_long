@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 08:50:20 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 11:38:01 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,24 +109,25 @@ t_map	*check_map_validation(char *map_name)
 	int		last_line;
 
 	if (!check_extension(map_name))
-		print_err("Invalid file");
+		print_err("invalid file");
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
-		print_err("memory allocation fails to make struct for map");
+		print_err("failed to allocate memory for map structure");
 	init_map(map);
 	last_line = 0;
 	count_length_and_width(map, map_name, &last_line);
 	if (map->length < 3 || map->width < 3 || map->length * \
 		TILE_SIZE > MONITOR_LENGTH || map->width * TILE_SIZE > MONITOR_WIDTH)
-		return (print_err("Invalid map"), NULL);
+		return (free(map), print_err("invalid map: size too \
+			small or exceeds monitor"), NULL);
 	map->content = calloc(map->length + 1, sizeof(char *));
 	if (!map->content)
 		return (free(map), \
-		print_err("memory allocation fails to create map content"), NULL);
+		print_err("failed to allocate memory for map content"), NULL);
 	last_line = 0;
 	if (!save_map(map, map_name, &last_line))
-		return (free_map(map), print_err("fail to save map content"), NULL);
-	if (!check_chars(map, 0, 0) || !check_path(map))
-		return (free_map(map), print_err("Invalid map"), NULL);
+		return (free_map(map), print_err("fail to save lines to memory"), NULL);
+	check_chars(map, 0, 0);
+	check_path(map);
 	return (map);
 }
