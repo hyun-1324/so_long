@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:56:49 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 08:30:16 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 08:50:20 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ static int	count_length_and_width(t_map *map, char *map_name, int *last_line)
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
-		return (free(map), print_err("failed to open file"), 0);
+		return (free(map), print_err("failed to open map file"), 0);
 	line = without_next_line(get_next_line(fd, map), last_line);
 	if (!line)
-		return (close(fd), free(map), print_err("failed to get line"), 0);
+		return (close(fd), free(map), print_err("failed to read a line"), 0);
 	while (line)
 	{
 		if (!process_map_line(map, line))
 			return (free(line), close(fd), free(map), \
-			print_err("Invalid map size"), 0);
+			print_err("Invalid map: inconsistent width"), 0);
 		free(line);
 		if (*last_line)
 			break ;
@@ -83,7 +83,7 @@ static int	save_map(t_map *map, char *map_name, int *last_line)
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(map), \
-		print_err("fail to open the file to save map content"), 0);
+		print_err("failed to reopen the file for map content"), 0);
 	i = 0;
 	while (i < map->length)
 	{
