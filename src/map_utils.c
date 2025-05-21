@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:15:56 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/20 23:27:45 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 08:18:03 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ char	*without_next_line(char *str, int *last_line)
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	if (len > 0 && str[len - 1] == '\n')
-		str[len - 1] = '\0';
-	else
+	if (!ft_strchr(str, '\n'))
 		*last_line = 1;
+	else if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
 	return (str);
 }

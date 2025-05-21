@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:40:41 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/19 15:14:14 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/21 08:02:58 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	print_err(char *str)
 {
+	write (2, "Error\n", 6);
 	if (str)
 		write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
