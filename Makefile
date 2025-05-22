@@ -3,7 +3,6 @@ NAME = so_long
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LIBFT = libft/libft.a
 
 SRCS_PATH = src
 LIBFT_PATH = libft
@@ -58,4 +57,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re bonus
+.PHONY : all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/21 12:53:28 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/22 13:58:22 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ static char	*save_line(int fd, char *tmp_buffer)
 			&tmp_len, &read_len);
 		if (!tmp_buffer)
 			return (NULL);
-		if (ft_strchr(tmp_buffer, '\n'))
-			break ;
 	}
 	return (tmp_buffer);
 }
