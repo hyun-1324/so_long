@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:06:35 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/22 13:58:22 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/23 07:53:14 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ char	*get_next_line(int fd, t_map *map)
 	if (!line)
 		return (close(fd), free_map(map), free(tmp_buffer), \
 		print_err("fail to allocate memory to make line"), NULL);
-	ft_bzero(buffer, 30);
 	ft_strlcpy(buffer, tmp_buffer + next_line_i, sizeof(buffer));
 	free(tmp_buffer);
 	return (line);
