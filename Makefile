@@ -14,7 +14,7 @@ LIBS = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 MLXLIB = $(MLX_PATH)/build/libmlx42.a
 LIBFT = $(LIBFT_PATH)/libft.a
-SRCS = $(SRCS_PATH)/so_long.c \
+SRCS = $(SRCS_PATH)/main.c \
 	   $(SRCS_PATH)/map_validation.c \
 	   $(SRCS_PATH)/check_chars.c \
 	   $(SRCS_PATH)/check_paths.c \
