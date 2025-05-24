@@ -5,11 +5,11 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS_PATH = src
-LIBFT_PATH = libft
-LIBMLX = ./MLX42
+LIBFT_PATH = library/libft
+LIBMLX = library/MLX42
 
 
-HEADERS = -I $(LIBMLX)/include
+HEADERS = -Iinclude -I$(LIBMLX)/include/MLX42 -I$(LIBFT_PATH)/
 LIBS = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 MLXLIB = $(MLX_PATH)/build/libmlx42.a

@@ -6,7 +6,7 @@
 /*   By: donheo <donheo@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:37:43 by donheo            #+#    #+#             */
-/*   Updated: 2025/05/22 16:36:16 by donheo           ###   ########.fr       */
+/*   Updated: 2025/05/24 17:36:02 by donheo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define SO_LONG_H
 
 # include <fcntl.h>
-# include "../libft/libft.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "libft.h"
+# include "MLX42.h"
 
 // Constants for rendering
 # define TILE_SIZE 64
